@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أيام الهوية والتراث القطري واليوم الوطني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Reem+Kufi:wght@500;600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --m:#8A1538; --m2:#6d0f2b; --m3:#3d0716;
+  --gold:#C9A45C; --gold2:#E6CF9C; --gold3:#f6ecd6;
+  --ivory:#FBF7F0; --ink:#24141a; --muted:#7a6a6f; --line:#ecdfe3;
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Tajawal',sans-serif;background:var(--m3);color:var(--ink);overflow:hidden;overflow:clip;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+
+/* ===== deck ===== */
+.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden;overflow:clip}
+.slide{
+  position:absolute;inset:0;overflow-x:hidden;overflow-x:clip;overflow-y:auto;
+  opacity:0;visibility:hidden;transform:scale(1.03);
+  transition:opacity .7s var(--ease),transform .9s var(--ease),visibility .7s;
+  background:var(--ivory);scrollbar-width:none;
+}
+.slide::-webkit-scrollbar{display:none}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide.past{transform:scale(.97)}
+.wrap{position:relative;min-height:100%;display:flex;align-items:center;padding:86px clamp(22px,5vw,80px) 110px clamp(22px,5vw,80px);padding-right:clamp(80px,9vw,140px)}
+.inner{width:100%;max-width:1160px;margin:auto}
+
+/* stagger-in */
+.slide .in{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .8s var(--ease)}
+.slide.active .in{opacity:1;transform:none}
+.slide.active .in.d1{transition-delay:.12s}.slide.active .in.d2{transition-delay:.22s}
+.slide.active .in.d3{transition-delay:.32s}.slide.active .in.d4{transition-delay:.42s}
+.slide.active .in.d5{transition-delay:.52s}.slide.active .in.d6{transition-delay:.62s}
+
+/* pattern bg */
+.pat::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%238A1538' stroke-width='1'%3E%3Cpath d='M36 2 70 36 36 70 2 36Z'/%3E%3Cpath d='M36 14 58 36 36 58 14 36Z'/%3E%3Cpath d='M36 26 46 36 36 46 26 36Z'/%3E%3C/g%3E%3C/svg%3E")}
+.dark.pat::after{opacity:.09;filter:invert(1) brightness(2)}
+
+/* flag edge (fixed, right side) */
+.edge{position:fixed;top:0;right:0;bottom:0;width:clamp(56px,6.5vw,96px);z-index:20;pointer-events:none}
+.edge svg{width:100%;height:100%;display:block}
+
+/* top chrome */
+.chrome{position:fixed;top:0;left:0;right:clamp(56px,6.5vw,96px);z-index:15;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(20px,3vw,40px);pointer-events:none;transition:opacity .4s}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Reem Kufi';font-weight:600;font-size:14px;color:var(--m);letter-spacing:.2px}
+.brand i{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);display:inline-block}
+.chrome.on-dark .brand{color:var(--gold2)}
+.tools{display:flex;gap:8px;pointer-events:auto}
+.tbtn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.85);backdrop-filter:blur(6px);display:grid;place-items:center;cursor:pointer;color:var(--m);transition:.2s}
+.tbtn:hover{background:#fff;transform:translateY(-1px)}
+.tbtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.chrome.on-dark .tbtn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
+.pnum{font-family:'Reem Kufi';font-size:13px;color:var(--muted);align-self:center;margin-inline-start:6px;min-width:44px;text-align:center}
+.chrome.on-dark .pnum{color:rgba(255,255,255,.7)}
+
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:25;background:transparent}
+.progress b{display:block;height:100%;width:0;background:linear-gradient(270deg,var(--gold),var(--gold2));transition:width .6s var(--ease);margin-right:0;margin-left:auto}
+
+/* bottom nav */
+.nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);padding:7px;border-radius:50px;box-shadow:0 10px 30px rgba(61,7,22,.22)}
+.nav .arr{width:42px;height:42px;border-radius:50%;border:none;background:var(--m);color:#fff;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.nav .arr:hover{background:var(--m2)}
+.nav .arr:disabled{background:#e8dce0;cursor:default}
+.nav .arr svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.dots{display:flex;gap:7px;padding:0 4px}
+.dots button{width:8px;height:8px;border-radius:8px;border:none;background:#dccbd0;cursor:pointer;padding:0;transition:all .35s var(--ease)}
+.dots button.on{width:26px;background:var(--m)}
+
+/* ===== type ===== */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Reem Kufi';font-weight:600;color:var(--m);font-size:clamp(13px,1.2vw,15px);letter-spacing:.3px;margin-bottom:14px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--gold)}
+.dark .eyebrow{color:var(--gold2)}
+.h{font-family:'Reem Kufi';font-weight:700;color:var(--m3);font-size:clamp(30px,4vw,54px);line-height:1.3;margin-bottom:14px}
+.h em{font-style:normal;color:var(--m)}
+.dark .h{color:#fff}.dark .h em{color:var(--gold2)}
+.lead{font-size:clamp(16px,1.55vw,20px);line-height:1.9;color:var(--muted);max-width:720px}
+.dark .lead{color:rgba(255,255,255,.78)}
+
+/* ===== COVER ===== */
+.cover{background:radial-gradient(120% 90% at 30% 20%,#a8204c 0%,var(--m) 38%,var(--m2) 70%,var(--m3) 100%);color:#fff}
+.cover .wrap{text-align:center}
+.cover .inner{max-width:980px}
+.seal{width:clamp(92px,9vw,124px);margin:0 auto 18px;display:block}
+.seal .ring{transform-origin:60px 60px;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cover h1{font-family:'Reem Kufi';font-weight:700;font-size:clamp(34px,5.2vw,74px);line-height:1.22;letter-spacing:-.5px}
+.cover h1 span{display:block;font-family:'Amiri';font-weight:700;color:var(--gold2);font-size:.62em;margin-top:8px;letter-spacing:0}
+.cover .meta{display:inline-flex;gap:0;margin:28px auto 30px;border:1px solid rgba(255,255,255,.22);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.06);backdrop-filter:blur(4px)}
+.cover .meta div{padding:12px clamp(14px,2vw,26px);border-inline-start:1px solid rgba(255,255,255,.18)}
+.cover .meta div:first-child{border:none}
+.cover .meta small{display:block;font-size:12px;color:rgba(255,255,255,.65);margin-bottom:2px}
+.cover .meta b{font-family:'Reem Kufi';font-weight:600;font-size:clamp(15px,1.5vw,19px)}
+.cover .meta .g b{color:var(--gold2)}
+.cd{display:flex;justify-content:center;gap:clamp(10px,1.4vw,18px);margin-bottom:28px}
+.cd div{min-width:clamp(70px,7vw,92px);padding:12px 8px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.18)}
+.cd b{display:block;font-family:'Reem Kufi';font-size:clamp(26px,3vw,40px);font-weight:700;line-height:1.1}
+.cd small{font-size:12.5px;color:rgba(255,255,255,.7)}
+.cd-cap{font-size:14px;color:var(--gold2);margin-bottom:12px;letter-spacing:.3px}
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--m3);border:none;border-radius:50px;padding:14px 30px;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.25);transition:.25s}
+.cta:hover{background:var(--gold2);transform:translateY(-2px)}
+.cta svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4}
+.sadu{position:absolute;left:0;right:0;bottom:0;height:22px;opacity:.55;
+  background:
+   linear-gradient(135deg,transparent 50%,var(--gold) 50%) 0 0/22px 22px,
+   linear-gradient(225deg,transparent 50%,var(--gold) 50%) 0 0/22px 22px;}
+.sadu2{position:absolute;left:0;right:0;bottom:22px;height:3px;background:var(--gold);opacity:.35}
+.sparkles{position:absolute;inset:0;pointer-events:none}
+
+/* ===== overview pillars ===== */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px}
+.pill{position:relative;text-align:right;background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px 22px 22px;cursor:pointer;transition:all .35s var(--ease);overflow:hidden}
+.pill::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--m);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.pill:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(138,21,56,.12);border-color:transparent}
+.pill:hover::after{transform:scaleX(1)}
+.pill .n{font-family:'Reem Kufi';font-size:13px;color:var(--gold);font-weight:700}
+.pill h3{font-family:'Reem Kufi';font-size:clamp(17px,1.6vw,21px);color:var(--m3);margin:12px 0 8px;font-weight:600}
+.pill p{font-size:14.5px;color:var(--muted);line-height:1.7}
+.pill .go{margin-top:14px;font-size:13px;color:var(--m);font-weight:700;display:flex;align-items:center;gap:6px}
+.ico{width:52px;height:52px;border-radius:16px;background:var(--gold3);display:grid;place-items:center}
+.ico svg{width:28px;height:28px;fill:none;stroke:var(--m);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== timeline ===== */
+.tl{position:relative;margin:44px 0 26px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.tl::before{content:"";position:absolute;top:41px;right:5%;left:5%;height:2px;background:repeating-linear-gradient(270deg,var(--gold) 0 8px,transparent 8px 14px)}
+.node{position:relative;background:none;border:none;cursor:pointer;text-align:center;color:inherit}
+.node .dot{width:82px;height:82px;margin:0 auto;border-radius:50%;background:#fff;border:2px solid var(--line);display:grid;place-items:center;transition:all .35s var(--ease);position:relative;z-index:1}
+.node .dot b{font-family:'Reem Kufi';font-size:30px;color:var(--m);line-height:1}
+.node .dot small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.node .lab{margin-top:12px;font-family:'Reem Kufi';font-weight:600;font-size:14.5px;color:var(--m3)}
+.node .wd{font-size:13px;color:var(--muted)}
+.node:hover .dot{border-color:var(--m);transform:translateY(-3px)}
+.node.sel .dot{background:var(--m);border-color:var(--m);box-shadow:0 0 0 8px rgba(138,21,56,.1)}
+.node.sel .dot b,.node.sel .dot small{color:#fff}
+.node.school .dot{border-color:var(--gold)}
+.node.qnd .dot{background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:var(--gold)}
+.node.qnd .dot b,.node.qnd .dot small{color:var(--m3)}
+.node.qnd.sel .dot{box-shadow:0 0 0 8px rgba(201,164,92,.25)}
+.tl-panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;min-height:150px;box-shadow:0 14px 34px rgba(138,21,56,.06)}
+.tl-panel .big{text-align:center;font-family:'Reem Kufi';font-size:64px;line-height:1;color:var(--m);font-weight:700}
+.tl-panel .big small{display:block;font-size:14px;color:var(--muted);font-weight:500;margin-top:6px;text-align:center}
+.tl-panel h4{font-family:'Reem Kufi';font-size:21px;color:var(--m3);margin-bottom:8px;font-weight:600}
+.tl-panel ul{list-style:none}
+.tl-panel li{position:relative;padding-right:22px;line-height:1.95;font-size:clamp(15px,1.4vw,17.5px)}
+.tl-panel li::before{content:"";position:absolute;right:2px;top:.8em;width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
+.fade{animation:fade .45s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ===== split layout ===== */
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(26px,4vw,60px);align-items:center}
+.art{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/4.2;background:linear-gradient(160deg,var(--m) 0%,var(--m3) 100%);box-shadow:0 30px 60px rgba(61,7,22,.25)}
+.art svg{position:absolute;inset:0;width:100%;height:100%}
+.art .tagline{position:absolute;bottom:20px;right:20px;left:20px;background:rgba(61,7,22,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:14px 18px;color:#fff;font-size:14.5px;line-height:1.7}
+.art .tagline b{font-family:'Reem Kufi';color:var(--gold2);display:block;font-size:16px;margin-bottom:2px}
+
+.opts{display:grid;gap:14px;margin-top:26px}
+.opt{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;transition:.3s var(--ease)}
+.opt:hover{box-shadow:0 14px 30px rgba(138,21,56,.08);transform:translateX(-4px)}
+.opt h3{font-family:'Reem Kufi';font-weight:600;font-size:clamp(17px,1.6vw,20px);color:var(--m3);margin-bottom:4px}
+.opt p{color:var(--muted);line-height:1.8;font-size:clamp(14.5px,1.35vw,16.5px)}
+.or{display:flex;align-items:center;gap:12px;color:var(--gold);font-family:'Reem Kufi';font-size:14px;margin:-2px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.btn{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:10px 18px;border-radius:40px;background:var(--m);color:#fff;text-decoration:none;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:.2s}
+.btn:hover{background:var(--m2)}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.btn.pending{background:transparent;color:var(--muted);border:1.5px dashed #d5c4c9;cursor:default}
+
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.fact{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+.fact small{display:block;font-size:12.5px;color:var(--muted);margin-bottom:4px}
+.fact b{font-family:'Reem Kufi';font-weight:600;color:var(--m3);font-size:16px}
+
+/* ===== theatre ===== */
+.theatre{background:radial-gradient(80% 70% at 50% 30%,#2a0a14 0%,#14040a 100%)}
+.stage{position:relative;max-width:900px;margin:26px auto 0;aspect-ratio:16/8.2;border-radius:22px;overflow:hidden;background:radial-gradient(60% 80% at 50% 0%,rgba(230,207,156,.35),transparent 70%),linear-gradient(180deg,#2b0d17,#12040a);border:1px solid rgba(201,164,92,.35);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.valance{position:absolute;top:0;left:0;right:0;height:16%;z-index:4;background:repeating-radial-gradient(circle at 50% -60%,var(--m) 0 26px,var(--m2) 26px 30px);border-bottom:3px solid var(--gold)}
+.curtain{position:absolute;top:0;bottom:0;width:51%;z-index:3;transition:transform 1.6s cubic-bezier(.7,0,.2,1);
+  background:repeating-linear-gradient(90deg,#7a1031 0 18px,#9b1a43 18px 30px,#6a0d2a 30px 46px)}
+.curtain.l{left:0;transform-origin:left}.curtain.r{right:0;transform-origin:right}
+.stage.open .curtain.l{transform:translateX(-96%) scaleX(.6)}
+.stage.open .curtain.r{transform:translateX(96%) scaleX(.6)}
+.show{position:absolute;inset:16% 0 0 0;display:grid;place-items:center;text-align:center;color:#fff;padding:20px}
+.show h3{font-family:'Amiri';font-weight:700;font-size:clamp(36px,5vw,68px);color:var(--gold2);line-height:1.2;text-shadow:0 0 30px rgba(230,207,156,.35)}
+.show p{margin-top:10px;font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.85);line-height:1.8}
+.show .chip{display:inline-block;margin-top:14px;padding:8px 18px;border-radius:30px;border:1px solid var(--gold);color:var(--gold2);font-size:14px}
+.raise{position:absolute;z-index:5;bottom:20px;left:50%;transform:translateX(-50%);transition:opacity .5s}
+.stage.open .raise{opacity:0;pointer-events:none}
+.spot{position:absolute;top:-20%;width:40%;height:140%;background:radial-gradient(50% 50% at 50% 50%,rgba(255,240,200,.18),transparent 70%);z-index:2;opacity:0;transition:opacity 1.2s 1s}
+.stage.open .spot{opacity:1}
+
+/* ===== national day ===== */
+.nd{background:linear-gradient(150deg,var(--m) 0%,var(--m2) 55%,var(--m3) 100%);color:#fff}
+.nd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.nd-card{position:relative;border-radius:22px;padding:26px 22px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(6px);transition:.35s var(--ease);overflow:hidden}
+.nd-card:hover{background:rgba(255,255,255,.12);transform:translateY(-5px)}
+.nd-card .k{font-family:'Reem Kufi';font-size:44px;color:rgba(230,207,156,.25);position:absolute;left:18px;top:8px;font-weight:700}
+.nd-card .ico{background:rgba(230,207,156,.15)}
+.nd-card .ico svg{stroke:var(--gold2)}
+.nd-card h3{font-family:'Reem Kufi';font-weight:600;font-size:clamp(18px,1.7vw,22px);margin:16px 0 8px}
+.nd-card p{color:rgba(255,255,255,.8);line-height:1.85;font-size:clamp(14.5px,1.35vw,16.5px)}
+.nd-card.feat{background:linear-gradient(160deg,rgba(230,207,156,.25),rgba(230,207,156,.06));border-color:rgba(230,207,156,.45)}
+.note{margin-top:22px;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:16px;background:rgba(0,0,0,.18);border:1px dashed rgba(230,207,156,.5);font-size:clamp(14.5px,1.35vw,16.5px);color:rgba(255,255,255,.88)}
+.note b{color:var(--gold2);font-family:'Reem Kufi';font-weight:600}
+
+/* ===== flow ===== */
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:12px;margin-top:34px}
+.step{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 22px;position:relative}
+.step .sn{position:absolute;top:-16px;right:22px;width:34px;height:34px;border-radius:50%;background:var(--m);color:#fff;display:grid;place-items:center;font-family:'Reem Kufi';font-weight:700;box-shadow:0 0 0 5px var(--ivory)}
+.step h3{font-family:'Reem Kufi';font-weight:600;font-size:clamp(17px,1.6vw,20px);color:var(--m3);margin:8px 0 8px}
+.step p{color:var(--muted);line-height:1.85;font-size:clamp(14.5px,1.35vw,16.5px)}
+.arrow{display:grid;place-items:center;color:var(--gold)}
+.arrow svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8}
+.quote{margin-top:26px;text-align:center;font-family:'Amiri';font-size:clamp(20px,2.2vw,28px);color:var(--m);line-height:1.7}
+.quote::before,.quote::after{content:"❖";color:var(--gold);font-size:.6em;margin:0 14px;vertical-align:middle}
+
+/* ===== FAQ ===== */
+.faq{margin-top:26px;display:grid;gap:12px}
+.q{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.3s}
+.q.open{border-color:rgba(138,21,56,.35);box-shadow:0 12px 26px rgba(138,21,56,.08)}
+.q button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:none;border:none;padding:18px 22px;cursor:pointer;text-align:right;font-family:'Reem Kufi';font-weight:600;font-size:clamp(16px,1.5vw,19px);color:var(--m3)}
+.q button i{width:30px;height:30px;border-radius:50%;background:var(--gold3);display:grid;place-items:center;flex-shrink:0;transition:.3s;font-style:normal;color:var(--m);font-size:18px}
+.q.open button i{transform:rotate(45deg);background:var(--m);color:#fff}
+.q .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease)}
+.q.open .a{grid-template-rows:1fr}
+.q .a>div{overflow:hidden}
+.q .a p{padding:0 22px 18px;color:var(--muted);line-height:1.9;font-size:clamp(14.5px,1.35vw,17px)}
+
+/* ===== checklist ===== */
+.cl-wrap{display:grid;grid-template-columns:1fr 280px;gap:30px;align-items:start;margin-top:26px}
+.cl{display:grid;gap:10px}
+.cl label{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;cursor:pointer;transition:.25s;font-size:clamp(15px,1.4vw,17.5px)}
+.cl label:hover{border-color:rgba(138,21,56,.3)}
+.cl input{appearance:none;width:24px;height:24px;border-radius:8px;border:2px solid var(--m);flex-shrink:0;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.cl input:checked{background:var(--m)}
+.cl input:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.cl label.done{background:#fbf3f5}
+.cl label.done span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(138,21,56,.4)}
+.ring-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:26px;text-align:center;position:sticky;top:20px}
+.ring-card svg{width:170px;height:170px}
+.ring-card .pct{font-family:'Reem Kufi';font-size:40px;font-weight:700;fill:var(--m)}
+.ring-card .sub{font-size:13px;fill:var(--muted)}
+.ring-card p{margin-top:10px;color:var(--muted);font-size:15px;line-height:1.7}
+.ring-card .done-msg{display:none;color:var(--m);font-family:'Reem Kufi';font-weight:600;font-size:18px}
+.ring-card.full .done-msg{display:block}.ring-card.full .todo-msg{display:none}
+.reset{margin-top:12px;background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+/* ===== closing ===== */
+.closing{background:radial-gradient(100% 80% at 50% 10%,#a8204c 0%,var(--m) 40%,var(--m3) 100%);color:#fff;text-align:center}
+.closing .wrap{flex-direction:column;justify-content:center}
+.flag{direction:ltr;display:flex;width:min(440px,70vw);aspect-ratio:28/11;margin:0 auto 34px;filter:drop-shadow(0 20px 30px rgba(0,0,0,.35))}
+.flag span{flex:1;height:100%;background-repeat:no-repeat;animation:wave 2.6s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-7%)}}
+.closing h2{font-family:'Amiri';font-weight:700;font-size:clamp(40px,6vw,84px);line-height:1.25}
+.closing h2 span{color:var(--gold2)}
+.closing p{margin-top:14px;font-size:clamp(16px,1.6vw,21px);color:rgba(255,255,255,.8)}
+.closing .date{display:inline-block;margin-top:26px;padding:10px 24px;border-radius:40px;border:1px solid var(--gold);font-family:'Reem Kufi';color:var(--gold2);letter-spacing:.5px}
+
+/* ===== overview grid ===== */
+.ov{position:fixed;inset:0;z-index:60;background:rgba(36,8,18,.92);backdrop-filter:blur(10px);display:none;padding:70px clamp(20px,5vw,80px);overflow:auto}
+.ov.on{display:block;animation:fade .3s}
+.ov h3{font-family:'Reem Kufi';color:var(--gold2);font-size:22px;margin-bottom:22px;font-weight:600}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.ov-grid button{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;color:#fff;text-align:right;cursor:pointer;transition:.2s}
+.ov-grid button:hover,.ov-grid button.cur{background:rgba(230,207,156,.16);border-color:var(--gold)}
+.ov-grid small{display:block;font-family:'Reem Kufi';color:var(--gold2);font-size:13px;margin-bottom:6px}
+.ov-grid b{font-family:'Reem Kufi';font-weight:600;font-size:16px}
+.ov .x{position:absolute;top:20px;left:24px}
+.keys{margin-top:26px;color:rgba(255,255,255,.55);font-size:13.5px}
+.keys kbd{background:rgba(255,255,255,.12);border-radius:6px;padding:2px 8px;margin:0 3px;font-family:inherit}
+
+@media (max-width:900px){
+  .pillars{grid-template-columns:repeat(2,1fr)}
+  .split{grid-template-columns:1fr}
+  .art{aspect-ratio:16/10}
+  .nd-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .arrow{transform:rotate(-90deg)}
+  .cl-wrap{grid-template-columns:1fr}
+  .tl{grid-template-columns:repeat(5,1fr);gap:4px}
+  .node .dot{width:58px;height:58px}.node .dot b{font-size:21px}.tl::before{top:29px}
+  .node .lab{font-size:12px}
+  .facts{grid-template-columns:1fr}
+  .tl-panel{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .pillars{grid-template-columns:1fr}
+  .cover .meta{flex-direction:column}
+  .cover .meta div{border-inline-start:none;border-top:1px solid rgba(255,255,255,.18)}
+  .brand{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="progress"><b id="prog"></b></div>
+
+<div class="edge" aria-hidden="true">
+  <svg viewBox="0 0 100 900" preserveAspectRatio="none">
+    <rect width="100" height="900" fill="#8A1538"/>
+    <polygon fill="#ffffff" points="100,0 100,900 62,900 22,850 62,800 22,750 62,700 22,650 62,600 22,550 62,500 22,450 62,400 22,350 62,300 22,250 62,200 22,150 62,100 22,50 62,0"/>
+  </svg>
+</div>
+
+<header class="chrome" id="chrome">
+  <div class="brand"><i></i>أكاديمية قطر الوكرة</div>
+  <div class="tools">
+    <span class="pnum" id="pnum">01 / 11</span>
+    <button class="tbtn" id="ovBtn" title="كل الشرائح (O)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
+    <button class="tbtn" id="fsBtn" title="ملء الشاشة (F)"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </div>
+</header>
+
+<main class="deck" id="deck">
+
+<!-- 01 COVER -->
+<section class="slide cover dark pat" data-title="الغلاف" data-dark>
+  <canvas class="sparkles" id="sparkles"></canvas>
+  <div class="wrap"><div class="inner">
+    <svg class="seal in" viewBox="0 0 120 120" aria-hidden="true">
+      <g class="ring">
+        <circle cx="60" cy="60" r="56" fill="none" stroke="#C9A45C" stroke-width="1.5" stroke-dasharray="2 5"/>
+      </g>
+      <circle cx="60" cy="60" r="47" fill="none" stroke="#E6CF9C" stroke-width="1.2"/>
+      <path d="M60 27v54" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M62.5 29c15 11 17 30 2 46z" fill="#fff"/>
+      <path d="M57.5 38c-12 10-13 25-1 36z" fill="#E6CF9C"/>
+      <path d="M33 82c18 9 36 9 54 0l-6 8c-14 6-28 6-42 0z" fill="#fff"/>
+      <path d="M36 95c8 3 16 3 24 0s16-3 24 0" stroke="#C9A45C" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </svg>
+    <h1 class="in d1">أيام الهوية والتراث القطري<span>والاحتفال باليوم الوطني</span></h1>
+    <div class="meta in d2">
+      <div><small>أيام الهوية والتراث</small><b>13 – 15 ديسمبر</b></div>
+      <div><small>احتفال المدرسة</small><b>16 ديسمبر</b></div>
+      <div class="g"><small>اليوم الوطني لدولة قطر</small><b>18 ديسمبر</b></div>
+    </div>
+    <p class="cd-cap in d3" id="cdCap">العدّ التنازلي لليوم الوطني القطري</p>
+    <div class="cd in d3" id="cd">
+      <div><b id="cdD">00</b><small>يوم</small></div>
+      <div><b id="cdH">00</b><small>ساعة</small></div>
+      <div><b id="cdM">00</b><small>دقيقة</small></div>
+      <div><b id="cdS">00</b><small>ثانية</small></div>
+    </div>
+    <button class="cta in d4" data-go="1">لنبدأ <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+  </div></div>
+  <div class="sadu2"></div><div class="sadu"></div>
+</section>
+
+<!-- 02 OVERVIEW -->
+<section class="slide pat" data-title="محاور البرنامج">
+  <div class="wrap"><div class="inner">
+    <div class="eyebrow in">محاور البرنامج</div>
+    <h2 class="h in d1">ديسمبر… شهرٌ <em>نحتفي فيه بقطر</em></h2>
+    <p class="lead in d2">برنامج متكامل يعزز الهوية الوطنية والتراث القطري لدى طلابنا، بالشراكة بين الفرق وأولياء الأمور. اختر محورًا للانتقال إليه مباشرة.</p>
+    <div class="pillars">
+      <button class="pill in d3" data-go="3">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.4l-4.8 2.5.9-5.4L4.2 8.7l5.4-.8z"/></svg></span>
+        <h3>أنشطة الهوية والتراث</h3><p>في الكلستر أو الخيمة التراثية</p>
+        <span class="go n">13 – 15 ديسمبر</span>
+      </button>
+      <button class="pill in d4" data-go="4">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V10l7-6 7 6v11"/><path d="M10 21v-5h4v5"/></svg></span>
+        <h3>القرية التراثية</h3><p>زيارات للطلاب بحجز مسبق</p>
+        <span class="go n">13 – 15 ديسمبر</span>
+      </button>
+      <button class="pill in d5" data-go="5">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v4c-2 2-4 2-4 6v6H8v-6c0-4-2-4-4-6z"/><path d="M12 4v16"/></svg></span>
+        <h3>مسرحية «دروب الساعي»</h3><p>عرض مسرحي على مسرح المدرسة</p>
+        <span class="go n">المواعيد تُعلن لاحقًا</span>
+      </button>
+      <button class="pill in d6" data-go="6">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h13l-2 4 2 4H5"/></svg></span>
+        <h3>الاحتفال باليوم الوطني</h3><p>احتفال المدرسة داخل الكلسترات</p>
+        <span class="go n">16 ديسمبر</span>
+      </button>
+    </div>
+  </div></div>
+</section>
+
+<!-- 03 TIMELINE -->
+<section class="slide pat" data-title="الجدول الزمني">
+  <div class="wrap"><div class="inner">
+    <div class="eyebrow in">الجدول الزمني</div>
+    <h2 class="h in d1">خمسة مواعيد <em>تصنع الحكاية</em></h2>
+    <div class="tl in d2" id="tl">
+      <button class="node" data-i="0"><div class="dot"><div><b>13</b><small>ديسمبر</small></div></div><div class="lab">الهوية والتراث</div><div class="wd">الأحد</div></button>
+      <button class="node" data-i="1"><div class="dot"><div><b>14</b><small>ديسمبر</small></div></div><div class="lab">الهوية والتراث</div><div class="wd">الاثنين</div></button>
+      <button class="node" data-i="2"><div class="dot"><div><b>15</b><small>ديسمبر</small></div></div><div class="lab">الهوية والتراث</div><div class="wd">الثلاثاء</div></button>
+      <button class="node school" data-i="3"><div class="dot"><div><b>16</b><small>ديسمبر</small></div></div><div class="lab">احتفال المدرسة</div><div class="wd">الأربعاء</div></button>
+      <button class="node qnd" data-i="4"><div class="dot"><div><b>18</b><small>ديسمبر</small></div></div><div class="lab">اليوم الوطني</div><div class="wd">الجمعة</div></button>
+    </div>
+    <div class="tl-panel in d3" id="tlPanel"></div>
+  </div></div>
+</section>
+
+<!-- 04 ACTIVITIES -->
+<section class="slide pat" data-title="أنشطة الهوية والتراث">
+  <div class="wrap"><div class="inner split">
+    <div>
+      <div class="eyebrow in">13 – 15 ديسمبر</div>
+      <h2 class="h in d1">تخطيط أنشطة <em>الهوية والتراث</em></h2>
+      <p class="lead in d2">يخطط المعلمون لأنشطة تعزز الهوية والتراث القطري بالتنسيق مع فرقهم، وبمشاركة أولياء الأمور. وتُنفَّذ الأنشطة في أحد مكانين:</p>
+      <div class="opts">
+        <div class="opt in d3">
+          <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M10 10v10"/></svg></span>
+          <div><h3>الكلستر الخاص بكل صف</h3><p>تنفيذ الأنشطة في الكلستر بالتنسيق بين أعضاء الفريق.</p></div>
+        </div>
+        <div class="or in d4">أو</div>
+        <div class="opt in d4">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M2 20 12 4l10 16z"/><path d="M12 4v16M8.5 20 12 13l3.5 7"/></svg></span>
+          <div><h3>الخيمة التراثية في المدرسة</h3><p>حجز وقت مخصص للفريق في الخيمة.</p>
+            <a class="btn pending" data-link="tent"><svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>رابط الحجز يُضاف قريبًا</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="art in d2" aria-hidden="true">
+      <svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A1538"/><stop offset="1" stop-color="#3d0716"/></linearGradient>
+          <linearGradient id="sand1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E6CF9C"/><stop offset="1" stop-color="#C9A45C"/></linearGradient>
+        </defs>
+        <rect width="400" height="420" fill="url(#sky1)"/>
+        <circle cx="290" cy="120" r="46" fill="#E6CF9C" opacity=".9"/>
+        <circle cx="290" cy="120" r="70" fill="#E6CF9C" opacity=".12"/>
+        <g fill="#fff" opacity=".7"><circle cx="60" cy="60" r="1.5"/><circle cx="120" cy="40" r="1"/><circle cx="180" cy="90" r="1.2"/><circle cx="350" cy="50" r="1"/><circle cx="40" cy="150" r="1"/></g>
+        <path d="M0 300 Q100 250 200 290 T400 280 V420 H0Z" fill="#C9A45C" opacity=".55"/>
+        <path d="M0 330 Q120 290 240 330 T400 320 V420 H0Z" fill="url(#sand1)"/>
+        <!-- tent -->
+        <g transform="translate(70 230)">
+          <path d="M0 110 L60 30 L200 30 L260 110 Z" fill="#24141a"/>
+          <path d="M60 30 L200 30 L190 40 L70 40Z" fill="#3d0716"/>
+          <g fill="#8A1538"><path d="M20 110 L66 46 L76 46 L40 110Z"/><path d="M220 110 L184 46 L194 46 L240 110Z"/></g>
+          <path d="M0 108 h260" stroke="#C9A45C" stroke-width="5" stroke-dasharray="10 6"/>
+          <path d="M100 110 L130 60 L160 110Z" fill="#E6CF9C" opacity=".85"/>
+          <path d="M60 30 L40 10 M200 30 L220 10" stroke="#24141a" stroke-width="3"/>
+        </g>
+        <!-- coffee pot (dallah) -->
+        <g transform="translate(300 300)" fill="#E6CF9C">
+          <path d="M10 50 Q0 20 18 10 L32 10 Q48 20 40 50Z"/>
+          <path d="M18 10 Q25 -6 32 10Z"/><circle cx="25" cy="-6" r="3"/>
+          <path d="M40 22 Q58 18 62 6 L66 8 Q60 26 42 32Z"/>
+          <ellipse cx="25" cy="52" rx="18" ry="4" fill="#C9A45C"/>
+        </g>
+        <!-- palm -->
+        <g transform="translate(30 210)" stroke="#24141a" fill="none" stroke-width="5" stroke-linecap="round">
+          <path d="M20 120 Q24 70 18 20"/>
+          <g fill="#24141a" stroke="none"><path d="M18 20 Q-10 10 -20 30 Q0 15 18 22Z"/><path d="M18 20 Q45 5 60 25 Q40 14 18 22Z"/><path d="M18 20 Q10 -10 -5 -12 Q12 0 18 22Z"/><path d="M18 20 Q30 -8 48 -6 Q28 4 18 22Z"/></g>
+        </g>
+      </svg>
+      <div class="tagline"><b>بالتعاون مع الفريق والأهل</b>يمكن للمعلمين التواصل مع أولياء الأمور ليكونوا شركاء في الأنشطة.</div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 05 VILLAGE -->
+<section class="slide pat" data-title="القرية التراثية">
+  <div class="wrap"><div class="inner split">
+    <div>
+      <div class="eyebrow in">زيارة ميدانية · 13 – 15 ديسمبر</div>
+      <h2 class="h in d1">رحلة إلى <em>القرية التراثية</em></h2>
+      <p class="lead in d2">خلال أيام الهوية والتراث يمكن للمعلمين زيارة القرية التراثية مع طلابهم، ليعيشوا تفاصيل الحياة القطرية القديمة عن قرب.</p>
+      <div class="facts in d3">
+        <div class="fact"><small>من؟</small><b>المعلمون مع طلابهم</b></div>
+        <div class="fact"><small>متى؟</small><b>13 – 15 ديسمبر</b></div>
+        <div class="fact"><small>كيف؟</small><b>بحجز موعد مسبق</b></div>
+      </div>
+      <div class="in d4"><a class="btn pending" data-link="village"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>رابط حجز الزيارة يُضاف قريبًا</span></a></div>
+    </div>
+    <div class="art in d2" aria-hidden="true">
+      <svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice">
+        <defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d0716"/><stop offset=".7" stop-color="#8A1538"/><stop offset="1" stop-color="#b8325c"/></linearGradient></defs>
+        <rect width="400" height="420" fill="url(#sky2)"/>
+        <circle cx="110" cy="250" r="60" fill="#E6CF9C" opacity=".85"/>
+        <!-- houses with wind tower -->
+        <g fill="#E6CF9C">
+          <rect x="40" y="250" width="120" height="90"/>
+          <rect x="150" y="215" width="120" height="125"/>
+          <rect x="260" y="260" width="110" height="80"/>
+          <rect x="205" y="150" width="34" height="70"/>
+        </g>
+        <g fill="#C9A45C">
+          <rect x="150" y="215" width="120" height="8"/>
+          <rect x="40" y="250" width="120" height="7"/>
+          <rect x="260" y="260" width="110" height="7"/>
+          <rect x="201" y="146" width="42" height="8"/>
+        </g>
+        <g fill="#5e0d26">
+          <rect x="211" y="160" width="6" height="40"/><rect x="221" y="160" width="6" height="40"/><rect x="231" y="160" width="4" height="40"/>
+          <path d="M195 340 v-46 a15 15 0 0 1 30 0 v46z"/>
+          <rect x="70" y="285" width="18" height="24" rx="9"/><rect x="110" y="285" width="18" height="24" rx="9"/>
+          <rect x="295" y="290" width="16" height="22" rx="8"/><rect x="325" y="290" width="16" height="22" rx="8"/>
+          <rect x="170" y="250" width="16" height="22" rx="8"/><rect x="235" y="250" width="16" height="22" rx="8"/>
+        </g>
+        <g fill="#E6CF9C"><path d="M150 215 l6 -8 6 8 6 -8 6 8 6 -8 6 8 6 -8 6 8 6 -8 6 8 6 -8 6 8 6 -8 6 8 6 -8 6 8 6 -8 6 8 6 -8 6 8z"/></g>
+        <rect x="0" y="340" width="400" height="80" fill="#C9A45C"/>
+        <path d="M0 340 h400" stroke="#E6CF9C" stroke-width="3"/>
+        <g fill="#fff" opacity=".7"><circle cx="300" cy="60" r="1.4"/><circle cx="340" cy="110" r="1"/><circle cx="60" cy="80" r="1.2"/><circle cx="200" cy="50" r="1"/></g>
+        <path d="M330 70 a22 22 0 1 0 14 40 a18 18 0 1 1 -14 -40z" fill="#E6CF9C"/>
+      </svg>
+      <div class="tagline"><b>تعلّم بالمعايشة</b>زيارة تربط الطلاب بتراث الأجداد وأسلوب حياتهم.</div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 06 THEATRE -->
+<section class="slide theatre dark" data-title="دروب الساعي" data-dark>
+  <div class="wrap"><div class="inner" style="text-align:center">
+    <div class="eyebrow in" style="justify-content:center">عرض مسرحي</div>
+    <h2 class="h in d1">على مسرح المدرسة</h2>
+    <div class="stage in d2" id="stage">
+      <div class="valance"></div>
+      <div class="spot" style="left:5%"></div><div class="spot" style="right:5%"></div>
+      <div class="curtain l"></div><div class="curtain r"></div>
+      <div class="show">
+        <div>
+          <h3>دروب الساعي</h3>
+          <p>مسرحية تُقام على مسرح المدرسة ضمن أيام الهوية والتراث</p>
+          <span class="chip">مواعيد العروض تُعلن لاحقًا</span>
+        </div>
+      </div>
+      <button class="cta raise" id="raise">ارفع الستار</button>
+    </div>
+  </div></div>
+</section>
+
+<!-- 07 NATIONAL DAY (school) -->
+<section class="slide nd dark pat" data-title="احتفال المدرسة" data-dark>
+  <div class="wrap"><div class="inner">
+    <div class="eyebrow in">الأربعاء 16 ديسمبر</div>
+    <h2 class="h in d1">احتفال المدرسة <em>باليوم الوطني</em></h2>
+    <p class="lead in d2">تحتفل المدرسة باليوم الوطني يوم 16 ديسمبر، قبل اليوم الوطني لدولة قطر في 18 ديسمبر.</p>
+    <div class="nd-grid">
+      <div class="nd-card in d3"><span class="k">01</span>
+        <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M10 10v10"/></svg></span>
+        <h3>داخل الكلسترات</h3><p>يقتصر احتفال الطلاب على الكلسترات فقط.</p>
+      </div>
+      <div class="nd-card feat in d4"><span class="k">02</span>
+        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M15.5 14.5c2.6.2 4.5 2.4 4.5 5.5"/></svg></span>
+        <h3>باقي الفعاليات</h3><p>متاحة لأولياء الأمور وطلاب برنامج MYP فقط.</p>
+      </div>
+      <div class="nd-card in d5"><span class="k">03</span>
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3c-1 1.5-2.4 2-4 2s-3-.5-4-2z"/></svg></span>
+        <h3>الزي الوطني</h3><p>يرتدي الطلاب ملابس اليوم الوطني.</p>
+      </div>
+    </div>
+    <div class="note in d6"><span class="ico" style="background:rgba(230,207,156,.15);width:42px;height:42px"><svg viewBox="0 0 24 24" style="stroke:#E6CF9C"><path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg></span><div><b>تذكير:</b> اليوم الوطني لدولة قطر يوافق الجمعة 18 ديسمبر.</div></div>
+  </div></div>
+</section>
+
+<!-- 08 PARENTS -->
+<section class="slide pat" data-title="الشراكة مع الأهل">
+  <div class="wrap"><div class="inner">
+    <div class="eyebrow in">الشراكة مع الأسرة</div>
+    <h2 class="h in d1">أولياء الأمور <em>شركاء في الاحتفال</em></h2>
+    <p class="lead in d2">لكل فريق أن يتواصل مع أولياء الأمور ويطلب تعاونهم في المشاركة وتنفيذ الفعاليات، وفق ما يتفق عليه الفريق.</p>
+    <div class="flow">
+      <div class="step in d3"><span class="sn">1</span><h3>اتفاق الفريق</h3><p>يحدد الفريق الفعاليات التي سينفذها خلال أيام الهوية والتراث.</p></div>
+      <div class="arrow in d3"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></div>
+      <div class="step in d4"><span class="sn">2</span><h3>رسالة خاصة بالفريق</h3><p>يُعِدّ الفريق رسالة لأولياء الأمور توضح الفعاليات وطبيعة المشاركة المطلوبة.</p></div>
+      <div class="arrow in d4"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></div>
+      <div class="step in d5"><span class="sn">3</span><h3>مشاركة الأهل</h3><p>يشارك أولياء الأمور في تنفيذ الفعاليات مع أبنائهم والفريق.</p></div>
+    </div>
+    <p class="quote in d6">حين تشارك الأسرة، يصبح التراث حكايةً يعيشها الأبناء</p>
+  </div></div>
+</section>
+
+<!-- 09 FAQ -->
+<section class="slide pat" data-title="أسئلة شائعة">
+  <div class="wrap"><div class="inner" style="max-width:900px">
+    <div class="eyebrow in">أسئلة شائعة</div>
+    <h2 class="h in d1">كل ما يحتاجه <em>الفريق</em></h2>
+    <div class="faq in d2" id="faq">
+      <div class="q"><button>أين ننفذ أنشطة الهوية والتراث؟<i>+</i></button><div class="a"><div><p>في الكلستر الخاص بكل صف، أو في الخيمة التراثية بالمدرسة بعد حجز وقت مخصص عبر رابط الحجز.</p></div></div></div>
+      <div class="q"><button>كيف نزور القرية التراثية مع الطلاب؟<i>+</i></button><div class="a"><div><p>بحجز الموعد المناسب عبر رابط الحجز، خلال الفترة من 13 إلى 15 ديسمبر.</p></div></div></div>
+      <div class="q"><button>متى تُعرض مسرحية «دروب الساعي»؟<i>+</i></button><div class="a"><div><p>تُعرض على مسرح المدرسة، وسيتم إعلامكم بمواعيد العروض لاحقًا.</p></div></div></div>
+      <div class="q"><button>أين يحتفل الطلاب يوم 16 ديسمبر؟<i>+</i></button><div class="a"><div><p>داخل الكلسترات فقط. أما باقي الفعاليات فمتاحة لأولياء الأمور وطلاب برنامج MYP فقط.</p></div></div></div>
+      <div class="q"><button>ما الزي المطلوب من الطلاب؟<i>+</i></button><div class="a"><div><p>يُطلب من الطلاب ارتداء ملابس اليوم الوطني.</p></div></div></div>
+      <div class="q"><button>كيف نُشرك أولياء الأمور؟<i>+</i></button><div class="a"><div><p>يُعِدّ كل فريق رسالة خاصة به يطلب فيها تعاون الأهل ومشاركتهم بحسب الفعاليات المتفق عليها.</p></div></div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 10 CHECKLIST -->
+<section class="slide pat" data-title="جاهزية الفريق">
+  <div class="wrap"><div class="inner">
+    <div class="eyebrow in">قائمة الجاهزية</div>
+    <h2 class="h in d1">هل فريقك <em>جاهز؟</em></h2>
+    <div class="cl-wrap">
+      <div class="cl in d2" id="cl">
+        <label><input type="checkbox"><span>التخطيط لأنشطة الهوية والتراث مع الفريق</span></label>
+        <label><input type="checkbox"><span>تحديد مكان التنفيذ: الكلستر أو الخيمة</span></label>
+        <label><input type="checkbox"><span>حجز وقت في الخيمة التراثية (إن لزم)</span></label>
+        <label><input type="checkbox"><span>حجز موعد زيارة القرية التراثية</span></label>
+        <label><input type="checkbox"><span>إعداد رسالة الفريق لأولياء الأمور وإرسالها</span></label>
+        <label><input type="checkbox"><span>تذكير الطلاب بملابس اليوم الوطني ليوم 16 ديسمبر</span></label>
+        <label><input type="checkbox"><span>متابعة مواعيد عروض «دروب الساعي»</span></label>
+      </div>
+      <div class="ring-card in d3" id="ringCard">
+        <svg viewBox="0 0 170 170">
+          <circle cx="85" cy="85" r="72" fill="none" stroke="#f1e6e9" stroke-width="12"/>
+          <circle id="ring" cx="85" cy="85" r="72" fill="none" stroke="#8A1538" stroke-width="12" stroke-linecap="round" transform="rotate(-90 85 85)" stroke-dasharray="452.4" stroke-dashoffset="452.4" style="transition:stroke-dashoffset .6s cubic-bezier(.22,.8,.24,1)"/>
+          <text x="85" y="88" text-anchor="middle" class="pct" id="pct">0%</text>
+          <text x="85" y="114" text-anchor="middle" class="sub" id="cnt">0 من 7</text>
+        </svg>
+        <p class="todo-msg">علّم على كل خطوة عند إنجازها</p>
+        <p class="done-msg">فريقكم جاهز للاحتفال!</p>
+        <button class="reset" id="reset">إعادة التعيين</button>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 11 CLOSING -->
+<section class="slide closing dark pat" data-title="الختام" data-dark>
+  <div class="wrap"><div class="inner">
+    <div class="flag in" id="flag" aria-hidden="true"></div>
+    <h2 class="in d1">كل عام <span>وقطر بخير</span></h2>
+    <p class="in d2">شكرًا لجهودكم وتعاونكم في إنجاح هذه المناسبة الوطنية</p>
+    <span class="date in d3">18 ديسمبر · اليوم الوطني لدولة قطر</span>
+  </div></div>
+  <div class="sadu2"></div><div class="sadu"></div>
+</section>
+
+</main>
+
+<nav class="nav" aria-label="التنقل">
+  <button class="arr" id="prev" aria-label="السابق"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+  <div class="dots" id="dots"></div>
+  <button class="arr" id="next" aria-label="التالي"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+</nav>
+
+<div class="ov" id="ov">
+  <button class="tbtn x" id="ovClose" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2)"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <h3>كل الشرائح</h3>
+  <div class="ov-grid" id="ovGrid"></div>
+  <p class="keys">اختصارات: <kbd>←</kbd><kbd>→</kbd> للتنقل · <kbd>O</kbd> كل الشرائح · <kbd>F</kbd> ملء الشاشة · <kbd>Home</kbd> البداية</p>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+/* ================= الروابط — ضعي الروابط هنا ================= */
+const LINKS = {
+  tent:    "",   // رابط حجز الخيمة التراثية
+  village: ""    // رابط حجز زيارة القرية التراثية
+};
+const LINK_TEXT = {tent:"احجز وقتًا في الخيمة", village:"احجز موعد الزيارة"};
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const u = LINKS[a.dataset.link];
+  if(u){a.href=u;a.target="_blank";a.rel="noopener";a.classList.remove('pending');a.querySelector('span').textContent=LINK_TEXT[a.dataset.link];}
+});
+
+/* ================= navigation ================= */
+const slides=[...document.querySelectorAll('.slide')];
+const N=slides.length, dots=document.getElementById('dots'), ovGrid=document.getElementById('ovGrid');
+let cur=0;
+const pad=n=>String(n).padStart(2,'0');
+slides.forEach((s,i)=>{
+  const d=document.createElement('button'); d.setAttribute('aria-label',s.dataset.title); d.onclick=()=>go(i); dots.appendChild(d);
+  const o=document.createElement('button'); o.innerHTML=`<small>${pad(i+1)}</small><b>${s.dataset.title}</b>`; o.onclick=()=>{go(i);toggleOv(false)}; ovGrid.appendChild(o);
+});
+function go(n){
+  if(n<0||n>=N)return;
+  slides.forEach((s,i)=>{s.classList.toggle('active',i===n);s.classList.toggle('past',i<n)});
+  cur=n;
+  [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===n));
+  [...ovGrid.children].forEach((d,i)=>d.classList.toggle('cur',i===n));
+  document.getElementById('pnum').textContent=pad(n+1)+' / '+pad(N);
+  document.getElementById('prog').style.width=((n)/(N-1)*100)+'%';
+  document.getElementById('chrome').classList.toggle('on-dark',slides[n].hasAttribute('data-dark'));
+  document.getElementById('prev').disabled=n===0;
+  document.getElementById('next').disabled=n===N-1;
+  slides[n].scrollTop=0;
+}
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.go)));
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  const k=e.key;
+  if(k==='ArrowLeft'||k==='PageDown'||k===' '){e.preventDefault();go(cur+1)}
+  else if(k==='ArrowRight'||k==='PageUp'){e.preventDefault();go(cur-1)}
+  else if(k==='Home'){go(0)} else if(k==='End'){go(N-1)}
+  else if(k==='o'||k==='O'||k==='خ'){toggleOv()}
+  else if(k==='f'||k==='F'||k==='ب'){fs()}
+  else if(k==='Escape'){toggleOv(false)}
+});
+let tx=null,ty=null;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(tx===null)return;
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)) dx>0?go(cur+1):go(cur-1);
+  tx=null;
+});
+const ov=document.getElementById('ov');
+function toggleOv(v){ov.classList.toggle('on',v===undefined?!ov.classList.contains('on'):v)}
+document.getElementById('ovBtn').onclick=()=>toggleOv(true);
+document.getElementById('ovClose').onclick=()=>toggleOv(false);
+function fs(){
+  try{
+    if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{})}
+    else{document.exitFullscreen().catch(()=>{})}
+  }catch(e){}
+}
+document.getElementById('fsBtn').onclick=fs;
+
+/* ================= countdown to 18 Dec ================= */
+const qnd=new Date('2026-12-18T00:00:00+03:00').getTime();
+function tick(){
+  let d=qnd-Date.now();
+  if(d<=0){document.getElementById('cdCap').textContent='كل عام وقطر بخير';document.getElementById('cd').style.display='none';return}
+  const D=Math.floor(d/864e5);d-=D*864e5;const H=Math.floor(d/36e5);d-=H*36e5;const M=Math.floor(d/6e4);d-=M*6e4;const S=Math.floor(d/1e3);
+  cdD.textContent=pad(D);cdH.textContent=pad(H);cdM.textContent=pad(M);cdS.textContent=pad(S);
+}
+tick();setInterval(tick,1000);
+
+/* ================= timeline ================= */
+const TL=[
+ {d:"13",w:"الأحد",t:"يوم الهوية والتراث",l:["أنشطة تعزز الهوية والتراث داخل الكلستر أو في الخيمة التراثية (بالحجز).","إمكانية زيارة القرية التراثية مع الطلاب بحجز موعد.","مشاركة أولياء الأمور في الفعاليات بالتنسيق مع الفريق."]},
+ {d:"14",w:"الاثنين",t:"يوم الهوية والتراث",l:["استمرار أنشطة الهوية والتراث في الكلستر أو الخيمة.","زيارات القرية التراثية بحسب الحجز.","مسرحية «دروب الساعي» على مسرح المدرسة، والمواعيد تُعلن لاحقًا."]},
+ {d:"15",w:"الثلاثاء",t:"يوم الهوية والتراث",l:["آخر أيام أنشطة الهوية والتراث.","زيارات القرية التراثية بحسب الحجز.","استكمال الفعاليات المتفق عليها مع أولياء الأمور."]},
+ {d:"16",w:"الأربعاء",t:"احتفال المدرسة باليوم الوطني",l:["احتفال الطلاب داخل الكلسترات فقط.","باقي الفعاليات متاحة لأولياء الأمور وطلاب MYP فقط.","يرتدي الطلاب ملابس اليوم الوطني."]},
+ {d:"18",w:"الجمعة",t:"اليوم الوطني لدولة قطر",l:["ذكرى تأسيس دولة قطر على يد الشيخ جاسم بن محمد بن ثاني عام 1878.","كل عام وقطر وأهلها بخير."]}
+];
+const nodes=[...document.querySelectorAll('.node')], panel=document.getElementById('tlPanel');
+function pick(i){
+  nodes.forEach((n,j)=>n.classList.toggle('sel',i===j));
+  const x=TL[i];
+  panel.innerHTML=`<div class="big">${x.d}<small>${x.w}</small></div><div><h4>${x.t}</h4><ul>${x.l.map(s=>`<li>${s}</li>`).join('')}</ul></div>`;
+  panel.classList.remove('fade');void panel.offsetWidth;panel.classList.add('fade');
+}
+nodes.forEach((n,i)=>n.onclick=()=>pick(i));
+pick(0);
+
+/* ================= theatre ================= */
+const stage=document.getElementById('stage');
+document.getElementById('raise').onclick=()=>stage.classList.add('open');
+stage.addEventListener('dblclick',()=>stage.classList.remove('open'));
+
+/* ================= FAQ ================= */
+document.querySelectorAll('#faq .q button').forEach(b=>b.onclick=()=>{
+  const q=b.parentElement, was=q.classList.contains('open');
+  document.querySelectorAll('#faq .q').forEach(x=>x.classList.remove('open'));
+  if(!was)q.classList.add('open');
+});
+
+/* ================= checklist ================= */
+const boxes=[...document.querySelectorAll('#cl input')], ring=document.getElementById('ring'), C=452.4;
+let celebrated=false;
+function upd(){
+  const n=boxes.filter(b=>b.checked).length, p=n/boxes.length;
+  boxes.forEach(b=>b.parentElement.classList.toggle('done',b.checked));
+  ring.style.strokeDashoffset=C*(1-p);
+  document.getElementById('pct').textContent=Math.round(p*100)+'%';
+  document.getElementById('cnt').textContent=n+' من '+boxes.length;
+  document.getElementById('ringCard').classList.toggle('full',n===boxes.length);
+  if(n===boxes.length&&!celebrated){celebrated=true;confetti()} if(n<boxes.length)celebrated=false;
+}
+boxes.forEach(b=>b.addEventListener('change',upd));
+document.getElementById('reset').onclick=()=>{boxes.forEach(b=>b.checked=false);upd()};
+
+/* ================= confetti ================= */
+const cv=document.getElementById('confetti'), cx=cv.getContext('2d');
+function confetti(){
+  cv.width=innerWidth;cv.height=innerHeight;
+  const cols=['#8A1538','#ffffff','#C9A45C','#E6CF9C','#6d0f2b'];
+  const P=Array.from({length:180},()=>({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.45,vx:(Math.random()-.5)*16,vy:-Math.random()*16-6,s:Math.random()*8+5,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.random()*cols.length|0],l:0}));
+  (function f(){
+    cx.clearRect(0,0,cv.width,cv.height);let alive=0;
+    P.forEach(p=>{p.l++;p.vy+=.38;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+      if(p.y<cv.height+40){alive++;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);cx.restore()}});
+    if(alive)requestAnimationFrame(f);else cx.clearRect(0,0,cv.width,cv.height);
+  })();
+}
+
+/* ================= waving flag ================= */
+(function(){
+  const flag=document.getElementById('flag'), cols=36;
+  const h=11/9; let pts='0,0 9,0';
+  for(let i=0;i<9;i++){pts+=` 11.6,${(i*h+h/2).toFixed(3)} 9,${((i+1)*h).toFixed(3)}`}
+  pts+=' 0,11';
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 11' preserveAspectRatio='none'><rect width='28' height='11' fill='%238A1538'/><polygon fill='%23ffffff' points='${pts}'/></svg>`;
+  for(let i=0;i<cols;i++){
+    const s=document.createElement('span');
+    s.style.backgroundImage=`url("data:image/svg+xml,${svg.replace(/"/g,"'")}")`;
+    s.style.backgroundSize=`${cols*100}% 100%`;
+    s.style.backgroundPosition=`${i/(cols-1)*100}% 0`;
+    s.style.animationDelay=`${-(i*0.07)}s`;
+    flag.appendChild(s);
+  }
+})();
+
+/* ================= cover sparkles ================= */
+(function(){
+  const c=document.getElementById('sparkles'),x=c.getContext('2d');let W,H,pts;
+  function rs(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;pts=Array.from({length:60},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.4,v:Math.random()*.25+.05,a:Math.random()*Math.PI*2}))}
+  rs();addEventListener('resize',rs);
+  (function f(){
+    x.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.y-=p.v;p.a+=.03;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
+      x.globalAlpha=.35+.35*Math.sin(p.a);x.fillStyle='#E6CF9C';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()});
+    requestAnimationFrame(f);
+  })();
+})();
+
+go(0);
+</script>
+</body>
+</html>
